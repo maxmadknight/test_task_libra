@@ -19,4 +19,24 @@ export default defineConfig({
             ignored: ['**/storage/framework/views/**'],
         },
     },
+    build: {
+        rolldownOptions: {
+            checks: {
+                pluginTimings: false,
+            },
+        },
+    },
+    css: {
+        preprocessorOptions: {
+            scss: {
+                quietDeps: true,
+                silenceDeprecations: [
+                    'color-functions',
+                    'global-builtin',
+                    'if-function',
+                    'import',
+                ],
+            },
+        },
+    },
 });
