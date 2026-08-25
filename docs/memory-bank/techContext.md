@@ -24,6 +24,18 @@
 ## Важливі Команди
 
 ```bash
+make run
+make precommit
+make quality
+make test
+make dusk
+make stan
+make pint
+```
+
+Низькорівневі еквіваленти:
+
+```bash
 docker compose exec app vendor/bin/pest
 docker compose exec app sh -lc 'APP_URL=http://host.docker.internal:8080 php artisan dusk'
 docker compose exec app vendor/bin/phpstan analyse --memory-limit=512M

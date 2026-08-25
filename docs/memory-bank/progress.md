@@ -12,6 +12,7 @@
 - Loan statuses централізовані в enum `LoanStatus`.
 - Docker runtime з `PostgreSQL` і `Selenium` налаштований.
 - `run-local.sh` запускає локальне середовище.
+- `Makefile` дає shortcuts для локальної розробки і `precommit`.
 - CI виконує тільки quality pipeline без Docker image publishing.
 - `README.md` має CI badge для `Code Quality And Tests`.
 - `OpenSpec` task list для `build-library-management-app` позначений виконаним.
@@ -24,12 +25,14 @@
 
 - За потреби архівувати або оновити `openspec/changes/build-library-management-app`, бо реалізація вже пішла далі за початковий design у частині controller structure і enum.
 - Після наступних code changes оновити **Memory Bank**, якщо змінюються scope, architecture або tooling.
+- За потреби додати нові `make` targets, якщо з'являться нові quality gates.
 
 ## Відомі Особливості
 
 - `Pest` і `Dusk` не запускати паралельно через shared test database.
 - `authors.show`, `books.show`, `loans.show`, `loans.create`, `loans.edit`, `loans.update` є redirect-style routes, але все одно мають окремі invokable controllers і requests.
 - App не призначений для production deployment.
+- `make precommit` є рекомендованою локальною перевіркою перед commit.
 
 ## Остання Перевірена Якість
 

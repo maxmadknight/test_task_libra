@@ -24,12 +24,14 @@
 - Entity requests: `app/Http/Requests/{Authors,Books,Loans}`.
 - Loan statuses: `app/Enums/LoanStatus.php`.
 - CI: `.github/workflows/ci.yml`.
+- Local development shortcuts: `Makefile`.
 
 ## Наступні Кроки
 
 - Після кожної суттєвої зміни оновлювати [progress.md](./progress.md) і цей файл.
 - Якщо змінюється архітектурне рішення, додати або оновити запис у [decisinLog.md](./decisinLog.md).
 - Якщо `OpenSpec` буде архівовано, відобразити це в [progress.md](./progress.md).
+- Перед commit запускати `make precommit`, якщо зміни зачіпають код, тести, assets або `OpenSpec`.
 
 ## Відкриті Питання
 

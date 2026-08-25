@@ -29,6 +29,22 @@ Open:
 http://localhost:8080
 ```
 
+## Makefile Commands
+
+The project includes a `Makefile` with Docker-based shortcuts for local development:
+
+```bash
+make run
+make pint
+make stan
+make test
+make dusk
+make quality
+make precommit
+```
+
+Use `make precommit` before committing. It runs asset build, route sanity check, Laravel Pint, Larastan/PHPStan, Pest, Laravel Dusk, and OpenSpec validation in sequence.
+
 ## Manual Docker Commands
 
 ```bash
@@ -44,10 +60,10 @@ docker compose exec -d app php artisan serve --host=0.0.0.0 --port=8000
 ## Quality Gates
 
 ```bash
-docker compose exec app vendor/bin/pest
-docker compose exec app sh -lc 'APP_URL=http://host.docker.internal:8080 php artisan dusk'
-docker compose exec app vendor/bin/phpstan analyse --memory-limit=512M
-docker compose exec app vendor/bin/pint --test
+make test
+make dusk
+make stan
+make pint
 ```
 
 Local host equivalents work when PHP, PostgreSQL, Node, and browser dependencies are installed.
