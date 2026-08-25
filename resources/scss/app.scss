@@ -1,0 +1,117 @@
+@import "bootstrap/scss/bootstrap";
+
+:root {
+    --library-ink: #18202f;
+    --library-muted: #667085;
+    --library-line: #d9dee8;
+    --library-panel: #ffffff;
+    --library-page: #f4f6f9;
+    --library-accent: #2f6f73;
+    --library-accent-dark: #24575a;
+}
+
+body {
+    background: var(--library-page);
+    color: var(--library-ink);
+}
+
+.library-shell {
+    min-height: 100vh;
+}
+
+.library-navbar {
+    background: #ffffff;
+    border-bottom: 1px solid var(--library-line);
+}
+
+.library-brand {
+    color: var(--library-ink);
+    font-weight: 700;
+}
+
+.library-page {
+    padding-block: 2rem;
+}
+
+.library-page__header {
+    align-items: center;
+    display: flex;
+    gap: 1rem;
+    justify-content: space-between;
+    margin-bottom: 1.25rem;
+}
+
+.library-page__title {
+    font-size: 1.65rem;
+    font-weight: 700;
+    margin: 0;
+}
+
+.library-panel {
+    background: var(--library-panel);
+    border: 1px solid var(--library-line);
+    border-radius: 8px;
+    box-shadow: 0 14px 30px rgba(24, 32, 47, 0.06);
+}
+
+.library-panel__body {
+    padding: 1.25rem;
+}
+
+.library-table {
+    margin-bottom: 0;
+}
+
+.library-table th {
+    color: var(--library-muted);
+    font-size: 0.78rem;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+}
+
+.library-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    justify-content: flex-end;
+}
+
+.library-filter {
+    display: grid;
+    gap: 0.75rem;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+}
+
+.library-book-list {
+    border-left: 3px solid var(--library-accent);
+    margin-top: 0.75rem;
+    padding-left: 1rem;
+}
+
+.library-empty {
+    color: var(--library-muted);
+    padding: 2rem;
+    text-align: center;
+}
+
+.btn-primary {
+    --bs-btn-bg: var(--library-accent);
+    --bs-btn-border-color: var(--library-accent);
+    --bs-btn-hover-bg: var(--library-accent-dark);
+    --bs-btn-hover-border-color: var(--library-accent-dark);
+}
+
+@media (max-width: 768px) {
+    .library-page__header {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .library-actions {
+        justify-content: flex-start;
+    }
+
+    .library-filter {
+        grid-template-columns: 1fr;
+    }
+}

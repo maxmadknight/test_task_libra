@@ -1,0 +1,51 @@
+services:
+  app:
+    build:
+      context: .
+    working_dir: /var/www/html
+    volumes:
+      - .:/var/www/html
+      - composer-cache:/tmp/composer-cache
+    environment:
+      COMPOSER_CACHE_DIR: /tmp/composer-cache
+      APP_URL: http://localhost:8080
+      DB_CONNECTION: pgsql
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_DATABASE: library
+      DB_USERNAME: library
+      DB_PASSWORD: library
+      SESSION_DRIVER: file
+      CACHE_STORE: file
+      DUSK_DRIVER_URL: http://selenium:4444
+    ports:
+      - "8080:8000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      selenium:
+        condition: service_started
+
+  postgres:
+    image: postgres:18-alpine
+    environment:
+      POSTGRES_DB: library
+      POSTGRES_USER: library
+      POSTGRES_PASSWORD: library
+    ports:
+      - "54320:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U library -d library"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  selenium:
+    image: selenium/standalone-chromium:latest
+    shm_size: 2gb
+
+volumes:
+  composer-cache:
+  postgres-data:

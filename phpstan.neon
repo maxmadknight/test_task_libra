@@ -1,0 +1,14 @@
+includes:
+    - vendor/larastan/larastan/extension.neon
+
+parameters:
+    level: 5
+    paths:
+        - app
+        - routes
+        - database
+    databaseMigrationsPath:
+        - database/migrations
+    checkModelProperties: true
+    checkModelMethodVisibility: true
+    parseModelCastsMethod: true
