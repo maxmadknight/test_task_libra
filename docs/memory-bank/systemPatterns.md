@@ -1,50 +1,50 @@
-# Системні Патерни
+# System Patterns
 
-## Архітектурний Огляд
+## Architecture Overview
 
-Застосунок є server-rendered `Laravel` MVC. HTTP routes явно описані в `routes/web.php`; кожен route веде до окремого invokable controller. Business state зберігається в `PostgreSQL` через `Eloquent` models.
+The application is a server-rendered `Laravel` MVC app. HTTP routes are declared explicitly in `routes/web.php`; each route maps to a separate invokable controller. Business state is stored in `PostgreSQL` through `Eloquent` models.
 
-## Межі Компонентів
+## Component Boundaries
 
-- `app/Models`: `Author`, `Book`, `BookLoan`, relationships, casts і невеликі доменні helpers/scopes.
-- `app/Enums`: доменні enum values, зараз `LoanStatus`.
-- `app/Http/Controllers/Authors`: one-action controllers для author routes.
-- `app/Http/Controllers/Books`: one-action controllers для book routes.
-- `app/Http/Controllers/Loans`: one-action controllers для loan routes.
-- `app/Http/Requests/{Authors,Books,Loans}`: validation і authorization boundary для кожного action.
-- `resources/views`: `Blade` templates і partials.
+- `app/Models`: `Author`, `Book`, `BookLoan`, relationships, casts, and small domain helpers/scopes.
+- `app/Enums`: domain enum values, currently `LoanStatus`.
+- `app/Http/Controllers/Authors`: one-action controllers for author routes.
+- `app/Http/Controllers/Books`: one-action controllers for book routes.
+- `app/Http/Controllers/Loans`: one-action controllers for loan routes.
+- `app/Http/Requests/{Authors,Books,Loans}`: validation and authorization boundary for each action.
+- `resources/views`: `Blade` templates and partials.
 - `resources/js/actions`: custom UI actions.
 - `resources/scss`: application styles plus imported package styles.
 
-## Основні Потоки
+## Important Flows
 
 ### Authors
 
-- `authors.index` показує авторів із counts і expandable book summaries.
-- `authors.edit` підвантажує related books із `loans_count`.
-- Author deletion заборонено, якщо існують книги цього автора.
+- `authors.index` shows authors with counts and expandable book summaries.
+- `authors.edit` loads related books with `loans_count`.
+- Author deletion is blocked when the author has books.
 
 ### Books
 
-- `books.index` підтримує search, author filter, availability filter і publication year range.
-- Availability рахується через `copies_count` мінус кількість loans.
-- Book deletion заборонено, якщо книга має loans.
-- Book author у table є link на `authors.show`, який редіректить на `authors.edit`.
+- `books.index` supports search, author filter, availability filter, and publication year range.
+- Availability is calculated as `copies_count` minus the number of loans.
+- Book deletion is blocked when the book has loans.
+- The book author in the table links to `authors.show`, which redirects to `authors.edit`.
 
 ### Loans
 
-- `loans.index` показує loans з фільтрами і status options із `LoanStatus::options()`.
-- `loans.store` створює loan в transaction і використовує `lockForUpdate()` на book row.
-- Якщо доступних примірників немає, користувач повертається на loans page з validation error і modal reopen flag.
-- Повернення книги реалізовано видаленням `BookLoan`.
+- `loans.index` shows loans with filters and status options from `LoanStatus::options()`.
+- `loans.store` creates a loan in a transaction and uses `lockForUpdate()` on the book row.
+- When no copies are available, the user returns to loans page with a validation error and modal reopen flag.
+- Returning a book is implemented by deleting `BookLoan`.
 
-## Інваріанти
+## Invariants
 
-- Кожен controller action має власний `FormRequest`.
-- Немає business logic у `Blade`, крім простого display branching.
-- Фільтри list pages мають зберігатися через `withQueryString()`.
-- Query для availability має бути сумісний з `PostgreSQL` pagination count query.
-- Loan status у коді не дублюється рядками, а проходить через `LoanStatus`.
-- Frontend interactivity не має перетворювати app на SPA.
+- Every controller action has its own `FormRequest`.
+- No business logic belongs in `Blade` beyond simple display branching.
+- List-page filters must be preserved through `withQueryString()`.
+- Availability queries must be compatible with `PostgreSQL` pagination count queries.
+- Loan status must not be duplicated as raw strings; it goes through `LoanStatus`.
+- Frontend interactivity must not turn the app into an SPA.
 
-Технічні команди і tooling дивись у [techContext.md](./techContext.md).
+Tooling and commands are listed in [techContext.md](./techContext.md).

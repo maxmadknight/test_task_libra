@@ -1,51 +1,51 @@
-# Журнал Рішень
+# Decision Log
 
 ## 2026-08-25 - Test Project, Not Deployable Product
 
-- Статус: accepted.
-- Контекст: користувач уточнив, що це test project для work apply і застосунок ніде не буде використовуватися.
-- Рішення: прибрати Docker image publishing з GitHub Actions і залишити тільки quality checks.
-- Альтернативи: публікувати image в `GHCR`; відхилено, бо немає deployment target.
-- Наслідки: CI має read-only package permissions і один job `Code Quality And Tests`.
+- Status: accepted.
+- Context: the user clarified that this is a test project for a work application and the app will not be used anywhere.
+- Decision: remove Docker image publishing from GitHub Actions and keep only quality checks.
+- Alternatives considered: publish an image to `GHCR`; rejected because there is no deployment target.
+- Consequences: CI has read-only package permissions and one job, `Code Quality And Tests`.
 
 ## 2026-08-25 - One Route, One Controller
 
-- Статус: accepted.
-- Контекст: користувач попросив single-action controllers і структуру за manipulated entity.
-- Рішення: замінити resource controllers на invokable controllers у `app/Http/Controllers/{Authors,Books,Loans}`.
-- Альтернативи: залишити `Route::resource()` і multi-action controllers; відхилено через явну вимогу.
-- Наслідки: `routes/web.php` має explicit route declarations, а кожен controller має тільки `__invoke`.
+- Status: accepted.
+- Context: the user requested single-action controllers and structure by manipulated entity.
+- Decision: replace resource controllers with invokable controllers in `app/Http/Controllers/{Authors,Books,Loans}`.
+- Alternatives considered: keep `Route::resource()` and multi-action controllers; rejected because the user explicitly requested one route - one controller.
+- Consequences: `routes/web.php` has explicit route declarations, and each controller has only `__invoke`.
 
 ## 2026-08-25 - FormRequest For Every Controller Action
 
-- Статус: accepted.
-- Контекст: користувач попросив для всіх requests у controllers визначити form request class with validation.
-- Рішення: створити `FormRequest` для кожного action, включно з redirect-only actions із порожніми `rules()`.
-- Альтернативи: використовувати `Illuminate\Http\Request` для read-only або redirect actions; відхилено заради послідовності вимоги.
-- Наслідки: requests згруповані за entity у `app/Http/Requests/{Authors,Books,Loans}`.
+- Status: accepted.
+- Context: the user requested form request classes with validation for all requests in controllers.
+- Decision: create a `FormRequest` for every action, including redirect-only actions with empty `rules()`.
+- Alternatives considered: use `Illuminate\Http\Request` for read-only or redirect actions; rejected to keep the implementation consistent with the requirement.
+- Consequences: requests are grouped by entity under `app/Http/Requests/{Authors,Books,Loans}`.
 
 ## 2026-08-25 - Loan Status Enum
 
-- Статус: accepted.
-- Контекст: hardcoded statuses у controller були дублюванням доменних значень.
-- Рішення: додати backed enum `App\Enums\LoanStatus` із `label()`, `badgeContext()` і `options()`.
-- Альтернативи: лишити model constants або рядки; відхилено через слабшу типізацію.
-- Наслідки: `BookLoan.status` каститься у enum, validation використовує `Rule::enum()`.
+- Status: accepted.
+- Context: hardcoded statuses in a controller duplicated domain values.
+- Decision: add backed enum `App\Enums\LoanStatus` with `label()`, `badgeContext()`, and `options()`.
+- Alternatives considered: keep model constants or raw strings; rejected because they are less type-safe.
+- Consequences: `BookLoan.status` is cast to the enum, and validation uses `Rule::enum()`.
 
 ## 2026-08-25 - PostgreSQL-safe Availability Filtering
 
-- Статус: accepted.
-- Контекст: availability filter має працювати з `PostgreSQL` і pagination count query.
-- Рішення: використовувати correlated subquery замість `having` по alias `loans_count`.
-- Альтернативи: фільтрувати через `havingRaw('copies_count > loans_count')`; відхилено, бо ламає count query.
-- Наслідки: availability logic повторюється в `Book` scope і book index query.
+- Status: accepted.
+- Context: the availability filter must work with `PostgreSQL` and pagination count queries.
+- Decision: use a correlated subquery instead of `having` on the alias `loans_count`.
+- Alternatives considered: filter with `havingRaw('copies_count > loans_count')`; rejected because it breaks the count query.
+- Consequences: availability logic appears in the `Book` scope and the book index query.
 
 ## 2026-08-25 - Server-rendered UI With Targeted JavaScript
 
-- Статус: accepted.
-- Контекст: задача просила npm packages, `SCSS` і custom JavaScript actions, без SPA.
-- Рішення: використовувати `Blade`, `Vite`, `SCSS`, `Bootstrap`, `Tom Select` і невеликі action modules.
-- Альтернативи: CDN snippets або SPA framework; відхилено через scope і вимоги.
-- Наслідки: UI простий для рев'ю, але має browser coverage через `Dusk`.
+- Status: accepted.
+- Context: the task requested npm packages, `SCSS`, and custom JavaScript actions without an SPA.
+- Decision: use `Blade`, `Vite`, `SCSS`, `Bootstrap`, `Tom Select`, and small action modules.
+- Alternatives considered: CDN snippets or an SPA framework; rejected because they do not match the scope and requirements.
+- Consequences: the UI stays easy to review while still having browser coverage through `Dusk`.
 
-Поточні невирішені питання дивись у [activeContext.md](./activeContext.md).
+Current unresolved questions are tracked in [activeContext.md](./activeContext.md).

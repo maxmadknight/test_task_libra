@@ -1,38 +1,38 @@
-# Продуктовий Контекст
+# Product Context
 
-## Проблема
+## Problem
 
-Репозиторій має показати роботодавцю, що автор може реалізувати невеликий бізнесовий застосунок без зайвої архітектури, але з якісною структурою, тестами, CI та відтворюваним запуском.
+The repository needs to show an employer that the author can implement a small business web application without unnecessary architecture, while still delivering clean structure, tests, CI, and reproducible local setup.
 
-## Користувачі
+## Users
 
-- Рев'юер тестового завдання, який швидко оцінює код, UI, тести та локальний запуск.
-- Розробник або агент, який продовжує роботу в репозиторії й має швидко зрозуміти scope.
+- A test-task reviewer who needs to quickly evaluate code, UI, tests, and local startup.
+- A developer or agent continuing work in the repository who needs to understand the scope quickly.
 
-## Очікуваний Досвід
+## Desired Experience
 
-- Перший екран веде до списку книг.
-- Навігація між `Books`, `Authors` і `Book loans` очевидна.
-- Форми показують validation errors і success/error messages.
-- Таблиці придатні для швидкого перегляду й мають пагінацію.
-- Dropdowns для вибору автора або книги мають пошук через `Tom Select`.
-- Зі сторінки книги можна перейти на сторінку автора.
-- На сторінці редагування автора видно пов'язані книги та чи були вони видані.
+- The first screen leads to the books list.
+- Navigation between `Books`, `Authors`, and `Book loans` is obvious.
+- Forms show validation errors and success/error messages.
+- Tables are scannable and paginated.
+- Dropdowns for selecting authors or books are searchable through `Tom Select`.
+- From a book row, the user can open the related author page.
+- On the author edit page, the user can see related books and whether they have been loaned.
 
-## Ключові Сценарії
+## Key Workflows
 
-- Додати, відредагувати або видалити автора, якщо в нього немає книг.
-- Додати, відредагувати або видалити книгу, якщо в неї немає loans.
-- Фільтрувати книги за текстом, автором, доступністю і роком публікації.
-- Видати книгу читачу через modal, якщо є доступний примірник.
-- Повернути книгу видаленням loan record.
-- Фільтрувати loans за читачем, назвою книги, датою видачі та статусом.
+- Add, edit, or delete an author when the author has no books.
+- Add, edit, or delete a book when the book has no loans.
+- Filter books by text, author, availability, and publication year.
+- Issue a book to a reader through a modal when a copy is available.
+- Return a book by deleting the loan record.
+- Filter loans by reader, book title, loan date, and status.
 
-## Продуктові Trade-offs
+## Product Trade-offs
 
-- Loan return реалізований як видалення запису, бо цього достатньо для тестового завдання.
-- Немає authentication/authorization, бо це прямо поза scope.
-- Статус loan зберігається в базі для простого фільтрування, але доменні значення централізовані enum.
-- UI лишається server-rendered через `Blade`; JavaScript використовується тільки для локальних interactions.
+- Loan return is implemented by deleting the record because this is sufficient for the test assignment.
+- Authentication and authorization are absent because they are explicitly out of scope.
+- Loan status is stored in the database for simple filtering, while domain values are centralized in an enum.
+- The UI remains server-rendered through `Blade`; JavaScript is only used for local interactions.
 
-Поточний стан і наступні кроки дивись у [activeContext.md](./activeContext.md).
+Current state and next steps are tracked in [activeContext.md](./activeContext.md).

@@ -1,24 +1,25 @@
-# Активний Контекст
+# Active Context
 
-## Поточний Фокус
+## Current Focus
 
-Проєкт наразі доведений до завершеного стану для тестового завдання. Поточна задача - підтримувати repo context через **Memory Bank**, щоб наступні зміни не розходилися зі scope.
+The project is currently complete for the test assignment. The active focus is keeping repo context accurate through **Memory Bank** so future changes stay aligned with scope.
 
-## Нещодавні Зміни
+## Recent Changes
 
-- Додано CI badge у `README.md` для workflow `CI/CD`.
-- Прибрано `build-and-publish-image`, бо застосунок не буде використовуватися або деплоїтися.
-- Controllers переписані на one route - one invokable controller.
-- Requests згруповані за entity і підключені до кожного controller action.
-- Додано enum `App\Enums\LoanStatus` для статусів loan.
-- На author edit page показуються related books і loan status.
-- На books page author name веде до author page.
-- Додано пошук і фільтри для books, searchable dropdowns через `Tom Select`.
+- Added the CI badge to `README.md` for the `CI/CD` workflow.
+- Removed `build-and-publish-image` because the app will not be deployed or used anywhere.
+- Reworked controllers to one route - one invokable controller.
+- Grouped requests by entity and attached a `FormRequest` to every controller action.
+- Added enum `App\Enums\LoanStatus` for loan statuses.
+- Author edit pages show related books and loan status.
+- Book rows link from author name to the author page.
+- Books page has search, filters, and searchable dropdowns through `Tom Select`.
+- Added `Makefile` shortcuts, including `make precommit`.
 
-## Поточні Джерела Правди
+## Current Sources Of Truth
 
-- Scope і setup: `README.md`.
-- Change-scoped вимоги: `openspec/changes/build-library-management-app/`.
+- Scope and setup: `README.md`.
+- Change-scoped requirements: `openspec/changes/build-library-management-app/`.
 - Routes: `routes/web.php`.
 - Entity controllers: `app/Http/Controllers/{Authors,Books,Loans}`.
 - Entity requests: `app/Http/Requests/{Authors,Books,Loans}`.
@@ -26,19 +27,19 @@
 - CI: `.github/workflows/ci.yml`.
 - Local development shortcuts: `Makefile`.
 
-## Наступні Кроки
+## Next Steps
 
-- Після кожної суттєвої зміни оновлювати [progress.md](./progress.md) і цей файл.
-- Якщо змінюється архітектурне рішення, додати або оновити запис у [decisinLog.md](./decisinLog.md).
-- Якщо `OpenSpec` буде архівовано, відобразити це в [progress.md](./progress.md).
-- Перед commit запускати `make precommit`, якщо зміни зачіпають код, тести, assets або `OpenSpec`.
+- After every meaningful change, update [progress.md](./progress.md) and this file.
+- If an architecture decision changes, add or update an entry in [decisinLog.md](./decisinLog.md).
+- If `OpenSpec` is archived, reflect that in [progress.md](./progress.md).
+- Before committing code, tests, assets, or `OpenSpec` changes, run `make precommit`.
 
-## Відкриті Питання
+## Open Questions
 
-- Чи треба архівувати `openspec/changes/build-library-management-app`, якщо команда вважає зміну завершеною.
-- Чи треба зберігати історію повернень книг замість видалення loan record; поточний scope цього не вимагає.
+- Whether to archive `openspec/changes/build-library-management-app` now that the implementation is complete.
+- Whether returning books should preserve loan history instead of deleting the loan record; current scope does not require it.
 
-## Активні Ризики
+## Active Risks
 
-- `Pest` і `Dusk` не запускати паралельно в поточному локальному setup, бо вони скидають одну й ту саму test database.
-- `OpenSpec` design частково старіший за код: там згадується resource controllers і enum-like string, але поточна реалізація вже використовує invokable controllers і `LoanStatus`.
+- Do not run `Pest` and `Dusk` in parallel in the current local setup because both reset the same test database.
+- The `OpenSpec` design is partly older than the implementation: it mentions resource controllers and enum-like strings, while current code uses invokable controllers and `LoanStatus`.

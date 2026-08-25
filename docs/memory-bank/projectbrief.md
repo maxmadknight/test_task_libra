@@ -1,51 +1,51 @@
-# Короткий Опис Проєкту
+# Project Brief
 
-## Огляд
+## Overview
 
-`Library Manager` є тестовим застосунком для подачі на роботу. Він демонструє невеликий, але завершений вебзастосунок на `Laravel 13` для керування авторами, книгами та видачами книг.
+`Library Manager` is a test application for a work application. It demonstrates a small but complete `Laravel 13` web application for managing authors, books, and book loans.
 
-Це не продукт для реального використання чи розгортання. Основна цінність репозиторію - показати якість реалізації, структуру коду, перевірки та зручний локальний запуск.
+This is not a real product and is not intended for deployment. The repository's main value is to show implementation quality, code structure, verification, and easy local startup.
 
-## Цілі
+## Goals
 
-- Показати повний робочий CRUD для авторів і книг.
-- Показати видачу та повернення книг з перевіркою доступної кількості примірників.
-- Забезпечити пошук, фільтри, пагінацію та зрозумілий серверний рендеринг.
-- Надати відтворюваний локальний запуск через `Docker` і `PostgreSQL`.
-- Покрити основні сценарії тестами, браузерними перевірками та статичними quality gates.
-- Тримати implementation flow близьким до кращих практик `Laravel`.
+- Demonstrate complete CRUD for authors and books.
+- Demonstrate issuing and returning books with available-copy validation.
+- Provide search, filters, pagination, and clear server-rendered screens.
+- Provide reproducible local startup through `Docker` and `PostgreSQL`.
+- Cover core scenarios with tests, browser checks, and static quality gates.
+- Keep the implementation flow close to modern `Laravel` best practices.
 
-## Межі
+## Scope
 
-Входить у scope:
+In scope:
 
-- Сторінки `Books`, `Authors`, `Book loans`.
-- Зв'язки: автор має багато книг, книга належить автору, книга має багато записів видачі.
-- `Blade` UI, `SCSS`, npm-managed assets, custom JavaScript actions.
-- `Pest`, `Laravel Dusk`, `Larastan/PHPStan`, `Laravel Pint`.
-- `OpenSpec` artifacts для початкової постановки задачі.
+- Pages for `Books`, `Authors`, and `Book loans`.
+- Relationships: an author has many books, a book belongs to an author, and a book has many loan records.
+- `Blade` UI, `SCSS`, npm-managed assets, and custom JavaScript actions.
+- `Pest`, `Laravel Dusk`, `Larastan/PHPStan`, and `Laravel Pint`.
+- `OpenSpec` artifacts for the initial task definition.
 
-Не входить у scope:
+Out of scope:
 
-- Реєстрація, авторизація, ролі або права доступу.
-- SPA, API-only frontend або окремий frontend framework.
-- Production deployment, image publishing, secrets management або довготривала підтримка.
-- Повноцінна бібліотечна доменна модель із історією повернень після видалення loan record.
+- Registration, authentication, roles, or permissions.
+- SPA, API-only frontend, or a separate frontend framework.
+- Production deployment, image publishing, secrets management, or long-term support.
+- A full library domain model with return history after deleting a loan record.
 
-## Обмеження
+## Constraints
 
-- Локальна база даних - `PostgreSQL`.
-- Застосунок має запускатися швидко через `./run-local.sh`.
-- Для кожного route використовується окремий invokable controller.
-- Для кожного controller request використовується окремий `FormRequest`.
-- Controllers і requests згруповані за manipulated entity.
-- Статуси видачі книг централізовані в enum `App\Enums\LoanStatus`.
+- The local database is `PostgreSQL`.
+- The app must start quickly through `./run-local.sh`.
+- Each route uses a separate invokable controller.
+- Each controller request uses a separate `FormRequest`.
+- Controllers and requests are grouped by manipulated entity.
+- Book loan statuses are centralized in enum `App\Enums\LoanStatus`.
 
-## Критерії Успіху
+## Success Criteria
 
-- `README.md` достатній для локального запуску та перевірки.
-- CI badge показує стан workflow `Code Quality And Tests`.
-- Основні команди проходять: `Pest`, `Dusk`, `Larastan/PHPStan`, `Pint`, asset build.
-- `OpenSpec` change `build-library-management-app` валідний і позначений як виконаний.
+- `README.md` is sufficient for local startup and verification.
+- The CI badge shows the status of workflow `Code Quality And Tests`.
+- Core commands pass: `Pest`, `Dusk`, `Larastan/PHPStan`, `Pint`, and asset build.
+- `OpenSpec` change `build-library-management-app` is valid and marked complete.
 
-Деталі продуктового контексту дивись у [productContext.md](./productContext.md), технічного контексту - у [techContext.md](./techContext.md).
+Product context is in [productContext.md](./productContext.md), and technical context is in [techContext.md](./techContext.md).

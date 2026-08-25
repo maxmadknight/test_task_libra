@@ -1,46 +1,48 @@
-# Прогрес
+# Progress
 
-## Готово
+## Done
 
-- `Laravel 13` застосунок створений і працює як library manager.
-- CRUD для authors і books реалізований.
-- Book loans реалізовані з issue modal, filters, pagination і return через delete.
-- Books page має search, filters і searchable author dropdown.
-- Author edit page показує related books і loan status.
-- Controllers переведені на one route - one invokable controller.
-- Requests згруповані за manipulated entity і підключені до всіх controller actions.
-- Loan statuses централізовані в enum `LoanStatus`.
-- Docker runtime з `PostgreSQL` і `Selenium` налаштований.
-- `run-local.sh` запускає локальне середовище.
-- `Makefile` дає shortcuts для локальної розробки і `precommit`.
-- CI виконує тільки quality pipeline без Docker image publishing.
-- `README.md` має CI badge для `Code Quality And Tests`.
-- `OpenSpec` task list для `build-library-management-app` позначений виконаним.
+- The `Laravel 13` application is built and works as a library manager.
+- CRUD for authors and books is implemented.
+- Book loans are implemented with an issue modal, filters, pagination, and return by delete.
+- Books page has search, filters, and a searchable author dropdown.
+- Author edit page shows related books and loan status.
+- Controllers are split into one route - one invokable controller.
+- Requests are grouped by manipulated entity and attached to all controller actions.
+- Loan statuses are centralized in enum `LoanStatus`.
+- Docker runtime with `PostgreSQL` and `Selenium` is configured.
+- `run-local.sh` starts the local environment.
+- `Makefile` provides local development shortcuts and `precommit`.
+- CI runs only the quality pipeline without Docker image publishing.
+- `README.md` has a CI badge for `Code Quality And Tests`.
+- The `OpenSpec` task list for `build-library-management-app` is marked complete.
 
 ## In Progress
 
-- Ініціалізовано **Memory Bank** для repo-local durable context.
+- **Memory Bank** is initialized for repo-local durable context.
+- **Memory Bank** files have been converted to English.
 
-## Залишилось
+## Remaining
 
-- За потреби архівувати або оновити `openspec/changes/build-library-management-app`, бо реалізація вже пішла далі за початковий design у частині controller structure і enum.
-- Після наступних code changes оновити **Memory Bank**, якщо змінюються scope, architecture або tooling.
-- За потреби додати нові `make` targets, якщо з'являться нові quality gates.
+- Archive or update `openspec/changes/build-library-management-app` if the change should be considered finalized, because implementation now differs from the original design around controller structure and enum usage.
+- Update **Memory Bank** after future code changes that alter scope, architecture, tooling, or project status.
+- Add new `make` targets if new quality gates appear.
 
-## Відомі Особливості
+## Known Notes
 
-- `Pest` і `Dusk` не запускати паралельно через shared test database.
-- `authors.show`, `books.show`, `loans.show`, `loans.create`, `loans.edit`, `loans.update` є redirect-style routes, але все одно мають окремі invokable controllers і requests.
-- App не призначений для production deployment.
-- `make precommit` є рекомендованою локальною перевіркою перед commit.
+- Do not run `Pest` and `Dusk` in parallel because they share and reset the same test database.
+- `authors.show`, `books.show`, `loans.show`, `loans.create`, `loans.edit`, and `loans.update` are redirect-style routes, but still have separate invokable controllers and requests.
+- The app is not intended for production deployment.
+- `make precommit` is the recommended local gate before committing.
 
-## Остання Перевірена Якість
+## Last Verified Quality
 
-Нещодавно проходили:
+Recently passed:
 
+- `make precommit`
 - `vendor/bin/pest`
 - `php artisan dusk`
 - `vendor/bin/phpstan analyse --memory-limit=512M`
 - `vendor/bin/pint --test`
 
-Актуальні команди дивись у [techContext.md](./techContext.md).
+Current commands are listed in [techContext.md](./techContext.md).
