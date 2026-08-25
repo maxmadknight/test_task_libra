@@ -5,6 +5,16 @@ use App\Models\Book;
 use App\Models\BookLoan;
 
 it('lists paginated books with author and availability data', function () {
+    $author = Author::factory()->create([
+        'first_name' => 'Virginia',
+        'last_name' => 'Woolf',
+    ]);
+
+    Book::factory()->create([
+        'author_id' => $author->id,
+        'title' => 'Mrs Dalloway',
+    ]);
+
     Book::factory()
         ->count(12)
         ->create();
@@ -14,6 +24,9 @@ it('lists paginated books with author and availability data', function () {
     $response
         ->assertOk()
         ->assertSee('Books')
+        ->assertSee('Mrs Dalloway')
+        ->assertSee('Virginia Woolf')
+        ->assertSee(route('authors.show', $author), false)
         ->assertSee('Available');
 });
 

@@ -70,7 +70,9 @@
                     @forelse($books as $book)
                         <tr>
                             <td>{{ $book->title }}</td>
-                            <td>{{ $book->author->full_name }}</td>
+                            <td>
+                                <a href="{{ route('authors.show', $book->author) }}">{{ $book->author->full_name }}</a>
+                            </td>
                             <td>{{ $book->publication_year }}</td>
                             <td>{{ $book->isbn }}</td>
                             <td>{{ $book->copies_count }}</td>
