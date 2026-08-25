@@ -47,6 +47,6 @@ class Book extends Model
     #[Scope]
     protected function available(Builder $query): void
     {
-        $query->withCount('loans')->havingRaw('copies_count > loans_count');
+        $query->whereRaw('copies_count > (select count(*) from book_loans where book_loans.book_id = books.id)');
     }
 }

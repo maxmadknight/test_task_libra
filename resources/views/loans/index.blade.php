@@ -76,7 +76,7 @@
                 <div class="modal-body">
                     <div class="mb-3">
                         <label class="form-label" for="book_id">Book</label>
-                        <select class="form-select @error('book_id') is-invalid @enderror" id="book_id" name="book_id" required>
+                        <select class="form-select @error('book_id') is-invalid @enderror" id="book_id" name="book_id" required data-searchable-select data-placeholder="Choose book">
                             <option value="">Choose book</option>
                             @foreach($books as $book)
                                 <option value="{{ $book->id }}" @disabled($book->availableCopies() < 1) @selected((int) old('book_id') === $book->id)>

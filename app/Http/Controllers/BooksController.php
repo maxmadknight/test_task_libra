@@ -9,17 +9,52 @@ use App\Models\Book;
 use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 
 class BooksController extends Controller
 {
-    public function index(): View
+    public function index(Request $request): View
     {
+        $filters = $request->only([
+            'author_id',
+            'availability',
+            'published_from',
+            'published_to',
+            'search',
+        ]);
+
+        $books = Book::query()
+            ->with('author')
+            ->withCount('loans')
+            ->when($filters['search'] ?? null, function ($query, string $search) {
+                $query->where(function ($query) use ($search) {
+                    $query
+                        ->where('title', 'like', "%{$search}%")
+                        ->orWhere('isbn', 'like', "%{$search}%")
+                        ->orWhereHas('author', function ($query) use ($search) {
+                            $query
+                                ->where('first_name', 'like', "%{$search}%")
+                                ->orWhere('last_name', 'like', "%{$search}%");
+                        });
+                });
+            })
+            ->when($filters['author_id'] ?? null, fn ($query, string $authorId) => $query->where('author_id', $authorId))
+            ->when($filters['published_from'] ?? null, fn ($query, string $year) => $query->where('publication_year', '>=', $year))
+            ->when($filters['published_to'] ?? null, fn ($query, string $year) => $query->where('publication_year', '<=', $year))
+            ->orderBy('title');
+
+        if (($filters['availability'] ?? '') === 'available') {
+            $books->whereRaw('copies_count > (select count(*) from book_loans where book_loans.book_id = books.id)');
+        }
+
+        if (($filters['availability'] ?? '') === 'unavailable') {
+            $books->whereRaw('copies_count <= (select count(*) from book_loans where book_loans.book_id = books.id)');
+        }
+
         return view('books.index', [
-            'books' => Book::query()
-                ->with('author')
-                ->withCount('loans')
-                ->orderBy('title')
-                ->paginate(10),
+            'authors' => $this->authorsForSelect(),
+            'books' => $books->paginate(10)->withQueryString(),
+            'filters' => $filters,
         ]);
     }
 

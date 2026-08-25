@@ -17,6 +17,72 @@ it('lists paginated books with author and availability data', function () {
         ->assertSee('Available');
 });
 
+it('filters books by search author availability and publication range', function () {
+    $matchingAuthor = Author::factory()->create([
+        'first_name' => 'Mary',
+        'last_name' => 'Shelley',
+    ]);
+    $matchingBook = Book::factory()->create([
+        'author_id' => $matchingAuthor->id,
+        'title' => 'Frankenstein',
+        'isbn' => '9780000000001',
+        'publication_year' => 1818,
+        'copies_count' => 2,
+    ]);
+    BookLoan::factory()->create(['book_id' => $matchingBook->id]);
+
+    $unavailableBook = Book::factory()->create([
+        'title' => 'Hidden Archive',
+        'publication_year' => 1818,
+        'copies_count' => 1,
+    ]);
+    BookLoan::factory()->create(['book_id' => $unavailableBook->id]);
+
+    Book::factory()->create([
+        'title' => 'Modern PHP',
+        'publication_year' => 2025,
+        'copies_count' => 2,
+    ]);
+
+    $response = $this->get(route('books.index', [
+        'author_id' => $matchingAuthor->id,
+        'availability' => 'available',
+        'published_from' => 1800,
+        'published_to' => 1900,
+        'search' => 'Shelley',
+    ]));
+
+    $response
+        ->assertOk()
+        ->assertSee('Frankenstein')
+        ->assertSee('value="Shelley"', false)
+        ->assertDontSee('Hidden Archive')
+        ->assertDontSee('Modern PHP');
+});
+
+it('filters books by unavailable status', function () {
+    $availableBook = Book::factory()->create([
+        'title' => 'Available Design',
+        'copies_count' => 2,
+    ]);
+    BookLoan::factory()->create(['book_id' => $availableBook->id]);
+
+    $unavailableBook = Book::factory()->create([
+        'title' => 'Loaned Out Design',
+        'copies_count' => 1,
+    ]);
+    BookLoan::factory()->create(['book_id' => $unavailableBook->id]);
+
+    $response = $this->get(route('books.index', [
+        'availability' => 'unavailable',
+    ]));
+
+    $response
+        ->assertOk()
+        ->assertSee('Loaned Out Design')
+        ->assertDontSee('Available Design');
+});
+
 it('creates a valid book', function () {
     $author = Author::factory()->create();
 

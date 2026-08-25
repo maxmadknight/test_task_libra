@@ -64,3 +64,38 @@ it('renders responsive navigation and book list', function () {
             ->assertSee('Small Screen Catalog');
     });
 });
+
+it('searches author dropdowns on book forms', function () {
+    Author::factory()->create([
+        'first_name' => 'Octavia',
+        'last_name' => 'Butler',
+    ]);
+    Author::factory()->create([
+        'first_name' => 'Invisible',
+        'last_name' => 'Writer',
+    ]);
+
+    $this->browse(function (Browser $browser) {
+        $browser->resize(1280, 900)
+            ->visitRoute('books.create')
+            ->waitFor('.ts-control')
+            ->script(<<<'JS'
+                const select = document.querySelector('#author_id').tomselect;
+                select.focus();
+                select.setTextboxValue('Butler');
+                select.refreshOptions(true);
+                JS);
+
+        $browser
+            ->waitForText('Octavia Butler');
+
+        $visibleOptions = $browser->script(<<<'JS'
+            return Array.from(document.querySelectorAll('.ts-dropdown .option'))
+                .map((option) => option.textContent.trim());
+            JS)[0];
+
+        expect(implode(' ', $visibleOptions))
+            ->toContain('Octavia Butler')
+            ->not->toContain('Invisible Writer');
+    });
+});

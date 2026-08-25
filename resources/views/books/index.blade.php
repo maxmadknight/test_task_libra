@@ -9,6 +9,49 @@
         <a class="btn btn-primary" href="{{ route('books.create') }}">Add book</a>
     </div>
 
+    <form class="library-panel library-panel__body mb-3" method="GET" action="{{ route('books.index') }}">
+        <div class="library-book-filter">
+            <div class="library-filter__search">
+                <label class="form-label" for="search">Search</label>
+                <input class="form-control" id="search" name="search" placeholder="Title, ISBN, or author" value="{{ $filters['search'] ?? '' }}">
+            </div>
+
+            <div>
+                <label class="form-label" for="author_id">Author</label>
+                <select class="form-select" id="author_id" name="author_id" data-searchable-select data-placeholder="Any author">
+                    <option value="">Any author</option>
+                    @foreach($authors as $author)
+                        <option value="{{ $author->id }}" @selected((string) ($filters['author_id'] ?? '') === (string) $author->id)>{{ $author->full_name }}</option>
+                    @endforeach
+                </select>
+            </div>
+
+            <div>
+                <label class="form-label" for="availability">Availability</label>
+                <select class="form-select" id="availability" name="availability">
+                    <option value="">Any availability</option>
+                    <option value="available" @selected(($filters['availability'] ?? '') === 'available')>Available</option>
+                    <option value="unavailable" @selected(($filters['availability'] ?? '') === 'unavailable')>Unavailable</option>
+                </select>
+            </div>
+
+            <div>
+                <label class="form-label" for="published_from">From year</label>
+                <input class="form-control" id="published_from" type="number" name="published_from" min="1000" max="{{ now()->year }}" value="{{ $filters['published_from'] ?? '' }}">
+            </div>
+
+            <div>
+                <label class="form-label" for="published_to">To year</label>
+                <input class="form-control" id="published_to" type="number" name="published_to" min="1000" max="{{ now()->year }}" value="{{ $filters['published_to'] ?? '' }}">
+            </div>
+
+            <div class="library-filter__actions">
+                <button class="btn btn-outline-primary" type="submit">Filter</button>
+                <a class="btn btn-outline-secondary" href="{{ route('books.index') }}">Reset</a>
+            </div>
+        </div>
+    </form>
+
     <div class="library-panel">
         <div class="table-responsive">
             <table class="table library-table align-middle">

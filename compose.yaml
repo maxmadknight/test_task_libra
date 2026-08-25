@@ -6,6 +6,7 @@ services:
     volumes:
       - .:/var/www/html
       - composer-cache:/tmp/composer-cache
+      - node-modules:/var/www/html/node_modules
     environment:
       COMPOSER_CACHE_DIR: /tmp/composer-cache
       APP_URL: http://localhost:8080
@@ -50,4 +51,5 @@ services:
 
 volumes:
   composer-cache:
+  node-modules:
   postgres-data:

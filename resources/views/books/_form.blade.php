@@ -11,7 +11,7 @@
 
     <div class="col-md-6">
         <label class="form-label" for="author_id">Author</label>
-        <select class="form-select @error('author_id') is-invalid @enderror" id="author_id" name="author_id" required>
+        <select class="form-select @error('author_id') is-invalid @enderror" id="author_id" name="author_id" required data-searchable-select data-placeholder="Choose author">
             <option value="">Choose author</option>
             @foreach($authors as $author)
                 <option value="{{ $author->id }}" @selected((int) old('author_id', $book->author_id ?? 0) === $author->id)>{{ $author->full_name }}</option>

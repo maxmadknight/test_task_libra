@@ -1,4 +1,5 @@
 @import "bootstrap/scss/bootstrap";
+@import "tom-select/dist/css/tom-select.bootstrap5.css";
 
 :root {
     --library-ink: #18202f;
@@ -82,6 +83,18 @@ body {
     grid-template-columns: repeat(5, minmax(0, 1fr));
 }
 
+.library-book-filter {
+    align-items: end;
+    display: grid;
+    gap: 0.75rem;
+    grid-template-columns: minmax(14rem, 2fr) minmax(12rem, 1.5fr) repeat(3, minmax(8rem, 1fr)) auto;
+}
+
+.library-filter__actions {
+    display: flex;
+    gap: 0.5rem;
+}
+
 .library-book-list {
     border-left: 3px solid var(--library-accent);
     margin-top: 0.75rem;
@@ -113,5 +126,14 @@ body {
 
     .library-filter {
         grid-template-columns: 1fr;
+    }
+
+    .library-book-filter {
+        grid-template-columns: 1fr;
+    }
+
+    .library-filter__actions {
+        align-items: stretch;
+        flex-direction: column;
     }
 }
