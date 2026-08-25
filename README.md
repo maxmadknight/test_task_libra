@@ -50,6 +50,16 @@ docker compose exec app vendor/bin/pint --test
 
 Local host equivalents work when PHP, PostgreSQL, Node, and browser dependencies are installed.
 
+Run Pest and Dusk serially because both reset the same PostgreSQL test database.
+
+## GitHub Actions
+
+The workflow in `.github/workflows/ci.yml` runs on pull requests and pushes to `main`, `master`, and `develop`.
+
+It runs Composer validation, npm build, route sanity checks, Laravel Pint, Larastan/PHPStan, Pest, Laravel Dusk, and OpenSpec validation against PostgreSQL. OpenSpec validation uses `npx -y @fission-ai/openspec@latest`.
+
+On pushes to `main` or `master`, the delivery job builds the Docker image and publishes it to GitHub Container Registry as `ghcr.io/<owner>/<repo>:latest` and `ghcr.io/<owner>/<repo>:<sha>`.
+
 ## Useful Commands
 
 ```bash

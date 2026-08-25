@@ -45,6 +45,8 @@ services:
   selenium:
     image: selenium/standalone-chromium:latest
     shm_size: 2gb
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
 
 volumes:
   composer-cache:

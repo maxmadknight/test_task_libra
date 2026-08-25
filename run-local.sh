@@ -27,6 +27,7 @@ step "Building frontend assets"
 docker compose exec app npm run build
 
 step "Starting Laravel development server"
+docker compose exec app sh -lc 'if command -v pkill >/dev/null 2>&1; then pkill -f "[p]hp artisan serve --host=0.0.0.0 --port=8000" || true; fi'
 docker compose exec -d app php artisan serve --host=0.0.0.0 --port=8000
 
 step "Application is ready"
