@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\LoanStatus;
 use Database\Factories\BookLoanFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\Scope;
@@ -16,15 +17,12 @@ class BookLoan extends Model
     /** @use HasFactory<BookLoanFactory> */
     use HasFactory;
 
-    public const StatusActive = 'active';
-
-    public const StatusOverdue = 'overdue';
-
     protected function casts(): array
     {
         return [
             'loaned_at' => 'date',
             'due_at' => 'date',
+            'status' => LoanStatus::class,
         ];
     }
 

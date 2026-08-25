@@ -1,5 +1,6 @@
 <?php
 
+use App\Enums\LoanStatus;
 use App\Models\Book;
 use App\Models\BookLoan;
 
@@ -7,14 +8,14 @@ it('lists loans with filters and preserves pagination query parameters', functio
     BookLoan::factory()->count(12)->create([
         'reader_name' => 'Ada Reader',
         'loaned_at' => '2026-08-20',
-        'status' => BookLoan::StatusActive,
+        'status' => LoanStatus::Active,
     ]);
     BookLoan::factory()->count(12)->create();
 
     $response = $this->get(route('loans.index', [
         'reader_name' => 'Ada',
         'loaned_at' => '2026-08-20',
-        'status' => BookLoan::StatusActive,
+        'status' => LoanStatus::Active->value,
     ]));
 
     $response
@@ -37,7 +38,7 @@ it('creates a loan when copies are available', function () {
     $this->assertDatabaseHas('book_loans', [
         'book_id' => $book->id,
         'reader_name' => 'Grace Hopper',
-        'status' => BookLoan::StatusActive,
+        'status' => LoanStatus::Active->value,
     ]);
 });
 

@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Enums\LoanStatus;
 use App\Models\Book;
 use App\Models\BookLoan;
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -19,7 +20,7 @@ class BookLoanFactory extends Factory
             'reader_name' => fake()->name(),
             'loaned_at' => $loanedAt,
             'due_at' => $dueAt,
-            'status' => $dueAt < now() ? BookLoan::StatusOverdue : BookLoan::StatusActive,
+            'status' => $dueAt < now() ? LoanStatus::Overdue : LoanStatus::Active,
         ];
     }
 }

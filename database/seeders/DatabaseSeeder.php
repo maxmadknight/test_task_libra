@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Enums\LoanStatus;
 use App\Models\Author;
 use App\Models\Book;
 use App\Models\BookLoan;
@@ -25,7 +26,7 @@ class DatabaseSeeder extends Seeder
                 'reader_name' => fake()->name(),
                 'loaned_at' => now()->subDays($index + 2),
                 'due_at' => $index % 3 === 0 ? now()->subDay() : now()->addDays($index + 3),
-                'status' => $index % 3 === 0 ? BookLoan::StatusOverdue : BookLoan::StatusActive,
+                'status' => $index % 3 === 0 ? LoanStatus::Overdue : LoanStatus::Active,
             ]);
         });
 

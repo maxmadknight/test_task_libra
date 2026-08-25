@@ -44,7 +44,7 @@
                             <td>{{ $loan->reader_name }}</td>
                             <td>{{ $loan->loaned_at->toDateString() }}</td>
                             <td>{{ $loan->due_at->toDateString() }}</td>
-                            <td><span class="badge text-bg-{{ $loan->status === 'overdue' ? 'danger' : 'success' }}">{{ ucfirst($loan->status) }}</span></td>
+                            <td><span class="badge text-bg-{{ $loan->status->badgeContext() }}">{{ $loan->status->label() }}</span></td>
                             <td>
                                 <div class="library-actions">
                                     <form method="POST" action="{{ route('loans.destroy', $loan) }}" data-confirm-return>
