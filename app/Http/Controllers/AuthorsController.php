@@ -41,6 +41,12 @@ class AuthorsController extends Controller
 
     public function edit(Author $author): View
     {
+        $author->load([
+            'books' => fn ($query) => $query
+                ->withCount('loans')
+                ->orderBy('title'),
+        ]);
+
         return view('authors.edit', [
             'author' => $author,
         ]);

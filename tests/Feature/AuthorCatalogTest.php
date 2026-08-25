@@ -2,6 +2,7 @@
 
 use App\Models\Author;
 use App\Models\Book;
+use App\Models\BookLoan;
 
 it('lists paginated authors with expandable book data available', function () {
     $author = Author::factory()->create([
@@ -40,6 +41,41 @@ it('creates and updates authors', function () {
         'id' => $author->id,
         'first_name' => 'Ursula K.',
     ]);
+});
+
+it('shows related books and loan status on the edit page', function () {
+    $author = Author::factory()->create([
+        'first_name' => 'Toni',
+        'last_name' => 'Morrison',
+    ]);
+    $loanedBook = Book::factory()->create([
+        'author_id' => $author->id,
+        'title' => 'Beloved',
+        'copies_count' => 2,
+    ]);
+    BookLoan::factory()->create(['book_id' => $loanedBook->id]);
+
+    Book::factory()->create([
+        'author_id' => $author->id,
+        'title' => 'Jazz',
+        'copies_count' => 1,
+    ]);
+
+    Book::factory()->create([
+        'title' => 'Other Author Book',
+    ]);
+
+    $response = $this->get(route('authors.edit', $author));
+
+    $response
+        ->assertOk()
+        ->assertSee('Related books')
+        ->assertSee('Beloved')
+        ->assertSee('Loaned')
+        ->assertSee('1 active')
+        ->assertSee('Jazz')
+        ->assertSee('Not loaned')
+        ->assertDontSee('Other Author Book');
 });
 
 it('validates author fields', function () {
